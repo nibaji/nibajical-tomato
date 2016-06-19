@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 CONFIG_LOCALVERSION="-dsm-kernel"
 =======
 CONFIG_LOCALVERSION="-darshan-kernel_test-8"
 >>>>>>> 5100959... tomato: Add & Enable PMC governor
+=======
+CONFIG_LOCALVERSION="-darshan-kernel_test-10"
+>>>>>>> 163e4c7... msm8916: Add powersuspend
 CONFIG_AUDIT=y
 CONFIG_NO_HZ=y
 CONFIG_HIGH_RES_TIMERS=y
@@ -66,6 +70,7 @@ CONFIG_COMPAT_BINFMT_ELF=y
 # CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
 CONFIG_COMPAT=y
 CONFIG_PM_AUTOSLEEP=y
+CONFIG_POWERSUSPEND=y
 CONFIG_PM_WAKELOCKS=y
 CONFIG_PM_WAKELOCKS_LIMIT=0
 # CONFIG_PM_WAKELOCKS_GC is not set
