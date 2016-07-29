@@ -15,6 +15,8 @@ obj-$(CONFIG_CPU_FREQ_GOV_PMC)		+= cpufreq_pmc.o
 obj-$(CONFIG_CPU_FREQ_GOV_INTEL)	+= cpufreq_intel.o
 obj-$(CONFIG_CPU_FREQ_GOV_ELEMENTALX)	+= cpufreq_elementalx.o
 obj-$(CONFIG_CPU_FREQ_GOV_COMMON)	+= cpufreq_governor.o
+obj-$(CONFIG_CPU_FREQ_GOV_ELEMENTALX)	+= cpufreq_elementalx.o
+obj-$(CONFIG_CPU_FREQ_GOV_LIONFISH)	+= cpufreq_lionfish.o
 
 obj-$(CONFIG_CPU_BOOST)			+= cpu-boost.o
 
