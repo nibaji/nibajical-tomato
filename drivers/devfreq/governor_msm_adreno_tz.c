@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2014,2016 The Linux Foundation. All rights reserved.
+ /* Copyright (c) 2010-2014,2016 The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -73,13 +73,38 @@ static void do_partner_start_event(struct work_struct *work);
 static void do_partner_stop_event(struct work_struct *work);
 static void do_partner_suspend_event(struct work_struct *work);
 static void do_partner_resume_event(struct work_struct *work);
-/* Boolean to detect if pm has entered suspend mode */
-static bool suspended = false;
 
 #ifdef CONFIG_ADRENO_IDLER
 /* Boolean to detect if pm has entered suspend mode */
 static bool suspended = false;
 #endif
+
+/* Trap into the TrustZone, and call funcs there. */
+static int __secure_tz_reset_entry2(unsigned int *scm_data, u32 size_scm_data,
+					bool is_64)
+{
+	int ret;
+	/* sync memory before sending the commands to tz*/
+	__iowmb();
+
+	if (!is_64) {
+		spin_lock(&tz_lock);
+		ret = scm_call_atomic2(SCM_SVC_IO, TZ_RESET_ID, scm_data[0],
+					scm_data[1]);
+		spin_unlock(&tz_lock);
+	} else {
+		if (is_scm_armv8()) {
+			struct scm_desc desc = {0};
+			desc.arginfo = 0;
+			ret = scm_call2(SCM_SIP_FNID(SCM_SVC_DCVS,
+					 TZ_RESET_ID_64), &desc);
+		} else {
+			ret = scm_call(SCM_SVC_DCVS, TZ_RESET_ID_64, scm_data,
+				size_scm_data, NULL, 0);
+		}
+	}
+	return ret;
+}
 
 static int __secure_tz_update_entry3(unsigned int *scm_data, u32 size_scm_data,
 					int *val, u32 size_val, bool is_64)
